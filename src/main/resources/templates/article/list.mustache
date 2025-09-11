@@ -1,0 +1,31 @@
+{{>layouts/header}}
+  
+ <!-- begin content -->
+<table class="table table-striped mx-auto" style="width:90%">
+  <thead>
+    <tr class="table-dark">
+      <th scope="col">#</th>
+      <th scope="col">Title</th>
+      <th scope="col">Content</th>
+    </tr>
+  </thead>
+  <tbody>
+  <!-- RESTAPI: 한개의 주소와 접속 method 를 달리하여 crud 를 구현 / 비동기통신에서 활용-->
+  <!-- articleList 만큼 반복 수행한다 -->
+  {{#articleList}}
+    <tr>
+      <th scope="row">{{ id }}</th>
+      <td><a href="/article/{{ id }}">{{ title }}</a></td> <!-- PathVariable -->
+      <td>{{ content }}</td>
+    </tr>
+  {{/articleList}}
+  </tbody>
+</table>
+
+<div class="table" style="width:90%">
+  <a href="/article/WriteForm" class="btn btn-outline-primary" role="button">새 글 쓰기</a>
+</div>
+
+ <!-- end of content -->
+
+{{>layouts/footer}}

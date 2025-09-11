@@ -1,0 +1,30 @@
+{{>layouts/header}}
+  
+ <!-- begin content -->
+{{#article}} 
+<form action="/article/Update" method="post">
+  <input type="hidden" name="id" value="{{ id }}" />
+	<table class="table table-border table-striped mx-3" style="width:90%">
+	<tbody>
+	  <tr>
+      <td scope="row">글번호</td>
+      <td>{{ id }}</td>
+    </tr>
+	  <tr>
+      <td scope="row">제목</td>
+      <td><input type="text" class="form-control" name="title" value="{{ title }}"></td>
+    </tr>
+		<tr>
+		  <td scope="row">내용</td>
+		  <td><textarea name="content" class="form-control" rows="4">{{ content }}</textarea></td>
+		</tr>
+  </tbody>
+	</table>
+	<button type="submit" class="btn btn-primary">Submit</button>
+  <a href="/article/List" class="btn btn-outline-primary" role="button">List</a>
+  <a href="/" class="btn btn-outline-primary" role="button">Home</a>
+</form>
+{{/article}}
+ <!-- end of content -->
+
+{{>layouts/footer}}

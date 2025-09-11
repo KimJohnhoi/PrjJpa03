@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+  <h2>Exam test</h2>
+	<a href="/exam">Get 방식 호출</a><br>
+	
+	<form action="/exam" method="post">
+	   <input type="submit" value="POST" />
+	</form>
+  <hr>
+  <div>
+    <select id="method">
+      <option value="get">GET</option>
+      <option value="post">POST</option>
+      <option value="put">PUT</option>
+      <option value="delete">DELETE</option>
+      <option value="patch">PATCH</option>
+    </select>
+    <input type="url" id="url" value="http://localhost:8080/exam">
+    <button id="send">Send</button>
+    <button id="getXML">Get XML</button>
+    <h2>Rest AIP 를 위해서는 Javascript로 코딩해야한다</h2>
+    <div id="result"></div>
+  </div>
+  
+  <script>
+  const sendEl = document.querySelector('#send');
+  
+  sendEl.onclick = function(){
+	  let method = document.querySelector('#method>option:checked').value;
+	  let url = document.querySelector('#url').value;
+	  const resultEl = document.querySelector('#result');
+	    
+	  fetch(url, {
+			  method: method
+		  })
+		  .then(response => response.text())
+		  //.then(response => response.json())
+		  //response.xml() 함수는 없다. response.text() 로 받아서 변환해서 사용
+		  .then (data => {
+			  console.log(data);
+			  alert(data);
+			  resultEl.innerHTML = data;
+		  })
+		  //alert(method);
+	  }
+  
+    // xml 불러오기 소스
+    /*fetch("https://www.w3schools.com/xml/note.xml")
+	  .then(response => response.text())     // 응답을 텍스트로 받음
+	  .then(str => {
+		  // text -> xml document 객체로 변환
+		  // 변환하면 xmlDoc.getElementsByTagName() 사용가능 해짐
+	    const parser = new DOMParser();
+	    const xmlDoc = parser.parseFromString(str, "application/xml");
+	    
+	    // XML 파싱 예시
+	    const to = xmlDoc.getElementsByTagName("to")[0].textContent;
+	    const from = xmlDoc.getElementsByTagName("from")[0].textContent;
+	
+	    console.log("받는 사람:", to);
+	    console.log("보낸 사람:", from);
+	  })
+	  .catch(err => console.error(err));*/
+    
+    // xml 불러오기
+    const getXMLEl = document.querySelector('#getXML');
+	  const resultEl = document.querySelector('#result');
+	  
+    getXMLEl.onclick = function(){
+    	 let url = '/data.xml';
+    	 fetch(url)
+    	  .then(response => response.text())
+    	  .then(text => {
+    		  const parser = new DOMParser();
+    		  const xmlDoc = parser.parseFromString(text, "application/xml");
+    		  
+    		  const toEl = xmlDoc.getElementsByTagName('to')[0];
+    		  const fromEl = xmlDoc.getElementsByTagName('from')[0];
+    		  const headingEl = xmlDoc.getElementsByTagName('heading')[0];
+    		  const bodyEl = xmlDoc.getElementsByTagName('body')[0];
+    		  
+    		  let html = `<ul>
+    			  <li>to: ${ toEl.innerHTML }</li>
+    			  <li>from: ${ fromEl.innerHTML }</li>
+    			  <li>heading: ${ headingEl.innerHTML }</li>
+    			  <li>body: ${ bodyEl.innerHTML }</li>
+    		  </ul>`
+    		  
+    			resultEl.innerHTML = html;
+    	  })
+    	  .catch(error => console.error(error));
+    }    	
+    
+  </script>
+</body>
+</html>
